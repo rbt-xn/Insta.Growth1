@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insta Growth</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Definición de variables */
+        :root { 
+            --primary: #a855f7; 
+            --accent-blue: #0ea5e9; 
+            --brand-gradient: linear-gradient(135deg, #0ea5e9 0%, #a855f7 100%); 
+            --bg-dark: #020408; 
+            --card-bg: #0f111a; 
+            --input-bg: #161824; 
+            --border-color: #252836;
+            --text-main: #f8fafc; 
+            --text-dim: #94a3b8; 
+            --success: #22c55e; 
+            --input-focus: #0ea5e9; 
+            --gold-gradient: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+
+        body { 
+            background: var(--bg-dark); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            padding: 20px; 
+            margin: 0; 
+        }
+
+        .container { 
+            background: var(--card-bg); 
+            width: 100%; 
+            max-width: 500px; 
+            padding: 25px; 
+            border-radius: 24px; 
+            border: 1px solid var(--border-color); 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+        }
+
+        /* --- BOTÓN REVENDEDOR (ESTILO MANTENIDO) --- */
+        .reseller-btn {
+            display: block;
+            background: var(--gold-gradient);
+            color: #fff;
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 13px;
+            margin-top: 25px; /* Cambiado a margen superior para separarlo de FAQ */
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+            transition: transform 0.2s;
+            border: 1px solid #fbbf24;
+        }
+        .reseller-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
+        .reseller-btn i { margin-right: 8px; }
+
+        h1 { 
+            text-align: center; 
+            font-size: 22px; 
+            margin: 0 0 20px; 
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .social-selector { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 10px; 
+            margin-bottom: 25px; 
+            max-height: 250px; 
+            overflow-y: auto; 
+        }
+        
+        .social-selector::-webkit-scrollbar { width: 4px; }
+        .social-selector::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+
+        .social-option { 
+            background: var(--input-bg); 
+            padding: 15px 5px; 
+            border-radius: 12px; 
+            text-align: center; 
+            cursor: pointer; 
+            border: 1px solid var(--border-color); 
+            color: var(--text-dim); 
+            transition: 0.3s; 
+        }
+        .social-option i { font-size: 24px; display: block; margin-bottom: 5px; transition: 0.3s; }
+        .social-option span { display: none; } 
+        
+        .social-option.active { 
+            border-color: var(--accent-blue); 
+            background: rgba(14, 165, 233, 0.08); 
+            color: var(--text-main); 
+            box-shadow: 0 0 10px rgba(14, 165, 233, 0.15);
+        }
+        .social-option.active i { color: var(--accent-blue); }
+
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; font-size: 11px; font-weight: 700; color: var(--text-dim); letter-spacing: 0.8px; }
+        
+        select, input { 
+            width: 100%; 
+            padding: 12px; 
+            border-radius: 10px; 
+            background: var(--input-bg); 
+            color: #fff; 
+            border: 1px solid var(--border-color); 
+            outline: none; 
+            box-sizing: border-box; 
+            font-size: 14px; 
+        }
+        input:focus, select:focus { 
+            border-color: var(--input-focus); 
+            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.1);
+        }
+
+        .grid-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        #precio { font-size: 30px; font-weight: 800; text-align: center; margin: 15px 0; color: var(--success); }
+        
+        .btn { 
+            width: 100%; 
+            padding: 14px; 
+            border-radius: 12px; 
+            border: none; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: 0.2s; 
+            font-size: 14px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px; 
+            color: #fff;
+        }
+
+        #agregar { 
+            background: var(--brand-gradient); 
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+        }
+        #agregar:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        #whatsapp { background: #25d366; color: #fff; margin-top: 15px; }
+        
+        .cart-section { margin-top: 25px; background: var(--input-bg); padding: 15px; border-radius: 16px; border: 1px solid var(--border-color); }
+        h2 { font-size: 16px; margin: 0 0 10px; }
+        ul { list-style: none; padding: 0; }
+        
+        li { 
+            background: var(--card-bg); 
+            margin-bottom: 8px; 
+            padding: 10px; 
+            border-radius: 10px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            font-size: 12px; 
+            border-left: 3px solid var(--primary); 
+            border: 1px solid var(--border-color);
+        }
+
+        .li-info small { display: block; color: var(--text-dim); width: 200px; overflow: hidden; text-overflow: ellipsis; }
+        .btn-borrar { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: none; padding: 5px 8px; border-radius: 6px; cursor: pointer; }
+        #total { text-align: right; font-size: 16px; font-weight: 700; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-color); }
+
+        .promo-container { margin-top: 15px; }
+        .promo-container input { 
+            border-style: dashed; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            text-align: center;
+        }
+        .promo-container input::placeholder { text-transform: none; letter-spacing: 0; }
+
+        .faq-section { margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 20px; }
+        .faq-item { background: var(--input-bg); padding: 15px; border-radius: 16px; margin-bottom: 12px; border: 1px solid var(--border-color); }
+        .faq-question { font-size: 13px; font-weight: 700; color: var(--input-focus); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .faq-answer { font-size: 12px; color: var(--text-dim); line-height: 1.6; margin: 0; }
+        .faq-answer b { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <h1>Insta Growth 🚀</h1>
+    <label>RED SOCIAL</label>
+    <div class="social-selector" id="socialSelector">
+        <div class="social-option active" onclick="selectRed('Instagram')"><i class="fab fa-instagram"></i><span>Instagram</span></div>
+        <div class="social-option" onclick="selectRed('Facebook')"><i class="fab fa-facebook"></i><span>Facebook</span></div>
+        <div class="social-option" onclick="selectRed('YouTube')"><i class="fab fa-youtube"></i><span>YouTube</span></div>
+        <div class="social-option" onclick="selectRed('TikTok')"><i class="fab fa-tiktok"></i><span>TikTok</span></div>
+        <div class="social-option" onclick="selectRed('Spotify')"><i class="fab fa-spotify"></i><span>Spotify</span></div>
+        <div class="social-option" onclick="selectRed('Telegram')"><i class="fab fa-telegram"></i><span>Telegram</span></div>
+        <div class="social-option" onclick="selectRed('WhatsApp')"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></div>
+        <div class="social-option" onclick="selectRed('Threads')"><i class="fab fa-at"></i><span>Threads</span></div>
+        <div class="social-option" onclick="selectRed('Twitch')"><i class="fab fa-twitch"></i><span>Twitch</span></div>
+    </div>
+
+    <div class="form-group">
+        <label>SERVICIO</label>
+        <select id="servicio"></select>
+    </div>
+
+    <div class="grid-inputs">
+        <div class="form-group">
+            <label>CALIDAD</label>
+            <select id="calidad">
+                <option>Normal</option>
+                <option>Premium</option>
+                <option>VIP</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>CANTIDAD</label>
+            <input type="number" id="cantidad" value="1000" min="100" step="100">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>ENLACE / URL</label>
+        <input type="text" id="linkSocial" placeholder="Pega el link aquí...">
+    </div>
+
+    <div id="precio">0.00€</div>
+    <button id="agregar" class="btn"><i class="fas fa-cart-plus"></i> Añadir al Pedido</button>
+
+    <div class="cart-section">
+        <h2><i class="fas fa-shopping-bag"></i> Mi Pedido</h2>
+        <ul id="carrito"></ul>
+        
+        <div class="promo-container">
+            <label><i class="fas fa-ticket-alt"></i> CÓDIGO DE AGENTE (OPCIONAL) </label>
+            <input type="text" id="promoCode" placeholder="Escribe el código aquí...">
+        </div>
+        
+        <div id="total">Total: 0.00€</div>
+        <button id="whatsapp" class="btn"><i class="fab fa-whatsapp"></i> Enviar a WhatsApp</button>
+    </div>
+
+    <div class="faq-section">
+        <h2><i class="fas fa-shield-alt"></i> Centro de Ayuda</h2>
+        
+        <div class="faq-item">
+            <span class="faq-question"><i class="fas fa-credit-card"></i> ¿Qué opciones de pagos aceptan?</span>
+            <p class="faq-answer">Aceptamos <b>Bizum</b> y <b>transferencias bancarias</b>. Aprovecha un <b>10% de descuento automático</b> si realizas tu pago mediante <b>Criptomonedas o Binance Pay</b>.</p>
+        </div>
+
+        <div class="faq-item">
+            <span class="faq-question"><i class="fas fa-user-shield"></i> ¿Es seguro para la cuenta?</span>
+            <p class="faq-answer"><b>Totalmente seguro</b>. Utilizamos métodos orgánicos y seguros que no ponen en riesgo tu cuenta, tampoco solicitamos tu contraseña.</p>
+        </div>
+
+        <div class="faq-item">
+            <span class="faq-question"><i class="fas fa-sync-alt"></i> ¿Tienen garantía de reposición?</span>
+            <p class="faq-answer">Sí, según el servicio: La calidad <b>Premium</b> ofrece 30 días de cobertura. La calidad <b>VIP</b> ofrece 90 días (ampliable a 1 año en servicios seleccionados).</p>
+        </div>
+    </div>
+
+    <a href="https://wa.me/595985760515?text=Hola!%20Me%20interesa%20ser%20revendedor" target="_blank" class="reseller-btn">
+        <i class="fas fa-hand-holding-dollar"></i> Conviértete en revendedor y gana 30%
+    </a>
+</div>
+
+<script>
+const data = {
+    Instagram: { Seguidores: 10, Vistas: 5, Likes: 5, Repost: 5, Comentarios: 7 },
+    Facebook: { Seguidores: 8, Likes: 5, Vistas: 5, "Miembros de grupo": 16 },
+    YouTube: { Suscriptores: 35, Vistas: 5, Likes: 5, Comentarios: 13 },
+    TikTok: { Seguidores: 12, Likes: 3, Vistas: 3, "Guardados/descargas": 3 },
+    Spotify: { "Oyentes mensuales": 15, Seguidores: 10, "Guardado de álbumes": 5 },
+    Telegram: { Miembros: 8, Vistas: 5, Reacciones: 5, Comentarios: 10 },
+    WhatsApp: { Miembros: 18, Reacciones: 10 },
+    Threads: { Seguidores: 8 },
+    Twitch: { Seguidores: 5, Vistas: 5, "Vistas Live 15 min": 5, "Vistas Live 30 min": 8, "Vistas Live 90 min": 20 }
+};
+
+let redSeleccionada = "Instagram", carrito = [];
+const $ = id => document.getElementById(id);
+const servSel = $("servicio"), calSel = $("calidad"), cantInp = $("cantidad"), precTxt = $("precio"), carrUl = $("carrito"), linkInp = $("linkSocial");
+
+const selectRed = red => {
+    redSeleccionada = red;
+    document.querySelectorAll('.social-option').forEach(opt => opt.classList.toggle('active', opt.querySelector('span').innerText.trim() === red));
+    cargarServicios();
+};
+
+const cargarServicios = () => {
+    servSel.innerHTML = Object.keys(data[redSeleccionada]).map(s => `<option value="${s}">${s}</option>`).join('');
+    actualizarPrecio();
+};
+
+const actualizarPrecio = () => {
+    const mult = { Normal: 1, Premium: 1.5, VIP: 2.5 }[calSel.value];
+    const final = (data[redSeleccionada][servSel.value] / 1000 * (parseInt(cantInp.value) || 0)) * mult;
+    precTxt.textContent = `${final.toFixed(2)}€`;
+};
+
+$("agregar").onclick = () => {
+    const cant = parseInt(cantInp.value), link = linkInp.value.trim(), precio = parseFloat(precTxt.textContent);
+    if(!link) return alert("Por favor, pega el link");
+    if(cant < 100) return alert("La cantidad mínima es 100");
+    carrito.push({ red: redSeleccionada, servicio: servSel.value, calidad: calSel.value, cantidad: cant, precio, link });
+    linkInp.value = "";
+    renderCarrito();
+};
+
+const renderCarrito = () => {
+    let t = 0;
+    carrUl.innerHTML = carrito.map((item, i) => {
+        t += item.precio;
+        return `<li><div class="li-info"><strong>${item.red} x${item.cantidad}</strong><small>${item.servicio} (${item.calidad})</small><small style="color:var(--input-focus)">${item.link}</small></div>
+        <div><span>${item.precio.toFixed(2)}€</span> <button class="btn-borrar" onclick="eliminar(${i})">✕</button></div></li>`;
+    }).join('');
+    $("total").textContent = `Total: ${t.toFixed(2)}€`;
+};
+
+window.eliminar = i => { carrito.splice(i, 1); renderCarrito(); };
+
+$("whatsapp").onclick = () => {
+    if (!carrito.length) return alert("El carrito está vacío");
+    const promoCode = $("promoCode").value.trim().toUpperCase();
+    let msg = " *NUEVO PEDIDO*%0A%0A" + carrito.map((item, i) => 
+        `*${i+1}. ${item.red}* (${item.calidad})%0A Cantidad: ${item.cantidad} ${item.servicio}%0A Link: ${item.link}%0A Subtotal: ${item.precio.toFixed(2)}€`).join('%0A%0A');
+    if(promoCode) {
+        msg += `%0A%0A*VENDEDOR:* ${promoCode}`;
+    }
+    window.open(`https://wa.me/595985760515?text=${msg}%0A%0A*TOTAL DEL PEDIDO: ${$("total").textContent}*`, "_blank");
+};
+
+[servSel, calSel, cantInp].forEach(el => el.onchange = el.oninput = actualizarPrecio);
+cargarServicios();
+</script>
+</body>
+</html>
